@@ -26,7 +26,7 @@ public:
 	ZSodukoMatrix();
 	virtual ~ZSodukoMatrix();
 
-	// ÓÉÍâ½çµ÷ÓÃÎªµ±Ç° Stage ÉèÖÃÊı×Ö
+	// ç”±å¤–ç•Œè°ƒç”¨ä¸ºå½“å‰ Stage è®¾ç½®æ•°å­—
 	void SetData(std::vector<uint16_t> data);
 
 	void SolveSoduko();
@@ -34,17 +34,31 @@ public:
 	void PrintToConsole();
 
 protected:
-	// ½«µ±Ç° Stage µÄÖ¸Õë´æ·Åµ½¸÷¸ö unit ÖĞ£¬Ó¦ÔÚÉèÖÃÍêÊı×ÖÖ®ºó±»µ÷ÓÃ
+	// å°†å½“å‰ Stage çš„æŒ‡é’ˆå­˜æ”¾åˆ°å„ä¸ª unit ä¸­ï¼Œåº”åœ¨è®¾ç½®å®Œæ•°å­—ä¹‹åè¢«è°ƒç”¨
 	void InitUnits();
 
-	// Í³¼Æµ±Ç° Stage ÖĞµÄÁô°×Çé¿ö
+	// ç»Ÿè®¡å½“å‰ Stage ä¸­çš„ç•™ç™½æƒ…å†µ
 	void CountSpace(std::queue< StagePosition > & space_queue);
 
-	// ³¢ÊÔÌî³äµ¥¸ö¿Õ°×
+	// å°è¯•å¡«å……å•ä¸ªç©ºç™½
 	uint16_t TryToFillSingleSpace(uint16_t x, uint16_t y);
 
-	// ¼ÆËãµ±Ç°ÔªËØÔÚ¶ÔÓ¦µÄÍø¸ñµ¥ÔªÏÂ±ê¼°ÆäÔÚ¶ÔÓ¦Íø¸ñµ¥ÔªÄÚµÄÏÂ±ê
-	void PositionMod3(uint16_t x, uint16_t y, int& grid_unit_index, int& data_index);
+	// è®¡ç®—å½“å‰å…ƒç´ åœ¨å¯¹åº”çš„ç½‘æ ¼å•å…ƒä¸‹æ ‡åŠå…¶åœ¨å¯¹åº”ç½‘æ ¼å•å…ƒå†…çš„ä¸‹æ ‡
+	void PositionMod3(uint16_t x, uint16_t y, uint16_t& grid_unit_index, uint16_t& grid_unit_data_index);
+	void PositionMod3Reverse(uint16_t grid_unit_index, uint16_t grid_unit_data_index, uint16_t& x, uint16_t& y);
+
+	// è·å–å•ä¸ªç½‘æ ¼ç›¸å…³è¡Œ/åˆ—/ç½‘æ ¼å•å…ƒçš„ç©ºç™½æ ‡è®°å’Œä¸å¯ç”¨æ•°æ®æ ‡è®°
+	void GetSpaceFlagAndExistingFlag(
+		uint16_t x, uint16_t y,
+		uint16_t& row_space_flag, uint16_t& row_existing_flag,
+		uint16_t& col_space_flag, uint16_t& col_existing_flag,
+		uint16_t& grid_space_flag, uint16_t& grid_existing_flag);
+
+	// æ ¹æ®flagå¾—å‡ºå•ä¸ªæ•°å­—ï¼ˆå¯¹äºé2æ•´æ•°å¹‚çš„æ•°å­—è¿”å›å€¼å‡ä¸º0ï¼‰
+	uint16_t ConverFlagToNum(uint16_t flag);
+
+	// æ ¹æ®ç»Ÿè®¡çš„flagå¾—å‡ºå¯¹åº”çš„æ•°å­—é˜Ÿåˆ—ï¼ˆå°†flagä¸­å¯å¯¹åº”çš„æ•°å­—å…¨éƒ¨å­˜æ”¾åˆ°vectorä¸­ï¼‰
+	void ConvertFlagToVector(uint16_t flag, std::vector<uint16_t>& nums);
 
 private:
 	std::vector< std::vector<uint16_t> > m_stage;
